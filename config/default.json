@@ -6,5 +6,70 @@
     "default": 10,
     "max": 50
   },
-  "mongodb": "mongodb://localhost:27017/api_feathers"
+  "mongodb": "mongodb://localhost:27017/api_feathers",
+  "authentication": {
+    "secret": "00a84a27fe2ea24d72f8fc4f4cb8920010eaaa70cfd62fcb7e241aba4a1c3dfbd76d804f6ff2866741a2d7ebf7991f1aa07ddb7c70ac8d52f6c8077b3db8dcf7f162f72d23a9fc71c8665a02a8f0dba3ddb88c22676d4bf4c4913b04ef535f1b2373ebcc8d4df268bc1b1b79b20d5c3e7e8899569e07a43f9fc42df0b633e1399459f1fb2cb58b03a46d915b4f37a4eb4d78c5328851a29f30e66abfdbbe4af500aaaaf374b85375b72f81ba191595c27945187c4b11d0d5b4263e58d916a289f108f51113eb9949467604904451d795ed18280e466f9107e8d0d902bf4eeb9a4dc935393996bf23c31bb86c203bf37eb4ed6748a58d35ee9bf8709325021925",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "usernameField": "email",
+      "passwordField": "password"
+    },
+    "auth0": {
+      "clientID": "your auth0 client id",
+      "clientSecret": "your auth0 client secret",
+      "successRedirect": "/",
+      "domain": "mydomain.auth0.com"
+    },
+    "google": {
+      "clientID": "your google client id",
+      "clientSecret": "your google client secret",
+      "successRedirect": "/",
+      "scope": [
+        "profile openid email"
+      ]
+    },
+    "facebook": {
+      "clientID": "your facebook client id",
+      "clientSecret": "your facebook client secret",
+      "successRedirect": "/",
+      "scope": [
+        "public_profile",
+        "email"
+      ],
+      "profileFields": [
+        "id",
+        "displayName",
+        "first_name",
+        "last_name",
+        "email",
+        "gender",
+        "profileUrl",
+        "birthday",
+        "picture",
+        "permissions"
+      ]
+    },
+    "cookie": {
+      "enabled": true,
+      "name": "feathers-jwt",
+      "httpOnly": false,
+      "secure": false
+    }
+  }
 }
