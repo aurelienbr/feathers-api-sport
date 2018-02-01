@@ -7,8 +7,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
     // Throw an error if we didn't get a text
 
+    //const stateHook = 
 
-    if(!userinformation.firstName || !userinformation.surname || !userinformation.firstName ) {
+    if(!userinformation.firstName){
       throw new Error('A message must have a text');
     }
 
@@ -17,27 +18,16 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // The authenticated user
     const user = context.params.user;
     // The actual message text
-    const firstName = context.data.text
-      // Messages can't be longer than 400 characters
-      .substring(0, 400);
+    const firstName = context.data.firstName.substring(0, 400);
 
-    const surname = context.data.text
-    .substring(0, 400);
+    const surname = context.data.surname.substring(0, 400);
 
-    const phoneNumber = context.data.text
-          // Messages can't be longer than 400 characters
-          .substring(0, 400);
+    const phoneNumber = context.data.phoneNumber.substring(0, 400);
 
-    const email = context.data.text
-                // Messages can't be longer than 400 characters
-                .substring(0, 400);
-    const gender = context.data.text
-                            // Messages can't be longer than 400 characters
-                            .substring(0, 400);
+    const email = context.data.email.substring(0, 400);
+    const gender = context.data.gender.substring(0, 400);
     // Override the original data (so that people can't submit additional stuff)
-    const password = context.data.text
-                // Messages can't be longer than 400 characters
-                .substring(0, 400);
+    const password = context.data.password.substring(0, 400);
 
 
     context.data = {
