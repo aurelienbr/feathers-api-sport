@@ -1,46 +1,58 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
+const errors = require('@feathersjs/errors');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data } = context;
 
+
+
     // Throw an error if we didn't get a text
 
     //const stateHook =
+    var error = {} ;
 
     if(!data.firstName){
-
-      throw new Error('A message must have a firstName');
+      error.firstName = 'missing';
+    }
+    if(!data.surname){
+      error.surname = 'missing';
+    }
+    if(!data.email){
+      error.email = 'missing';
+    }
+    if(!data.phoneNumber){
+      error.phoneNumber = 'missing';
+    }
+    if(!data.gender){
+      error.gender = 'missing';
     }
 
+
+    if(Object.keys(error).length > 0){
+      throw new errors.BadRequest('Invalid Parameters', error);
+    }
 
 
     // The authenticated user
     const user = context.params.user;
     // The actual message text
     const firstName = context.data.firstName.substring(0, 400);
-
-    /*const surname = context.data.surname.substring(0, 400);
-
-    const phoneNumber = context.data.phoneNumber.substring(0, 400);
-
+    const surname = context.data.surname.substring(0, 400);
     const email = context.data.email.substring(0, 400);
+    const phoneNumber = context.data.phoneNumber.substring(0, 400);
     const gender = context.data.gender.substring(0, 400);
-    // Override the original data (so that people can't submit additional stuff)
-    const password = context.data.password.substring(0, 400);*/
 
 
     context.data = {
-      firstName,
-      ...data
 
-      /*,
+      firstName,
       surname,
       phoneNumber,
       email,
       gender,
-      password,*/
+      ...data
 
 
       // Add the current date
