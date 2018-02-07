@@ -3,14 +3,15 @@
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
-    const { userinformation } = context;
+    const { data } = context;
 
     // Throw an error if we didn't get a text
 
-    //const stateHook = 
+    //const stateHook =
 
-    if(!userinformation.firstName){
-      throw new Error('A message must have a text');
+    if(!data.firstName){
+
+      throw new Error('A message must have a firstName');
     }
 
 
@@ -20,25 +21,28 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // The actual message text
     const firstName = context.data.firstName.substring(0, 400);
 
-    const surname = context.data.surname.substring(0, 400);
+    /*const surname = context.data.surname.substring(0, 400);
 
     const phoneNumber = context.data.phoneNumber.substring(0, 400);
 
     const email = context.data.email.substring(0, 400);
     const gender = context.data.gender.substring(0, 400);
     // Override the original data (so that people can't submit additional stuff)
-    const password = context.data.password.substring(0, 400);
+    const password = context.data.password.substring(0, 400);*/
 
 
     context.data = {
       firstName,
+      ...data
+
+      /*,
       surname,
       phoneNumber,
       email,
       gender,
-      password,
-      // Set the user id
-      userId: user._id,
+      password,*/
+
+
       // Add the current date
     };
 
