@@ -1,19 +1,18 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+module.exports = function(options = {}) {
+  // eslint-disable-line no-unused-vars
   return async context => {
     const { userinformation } = context;
 
     // Throw an error if we didn't get a text
 
-    //const stateHook = 
+    //const stateHook =
 
-    if(!userinformation.firstName){
-      throw new Error('A message must have a text');
+    if (!userinformation.firstName) {
+      throw new Error("A message must have a text");
     }
-
-
 
     // The authenticated user
     const user = context.params.user;
@@ -29,7 +28,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // Override the original data (so that people can't submit additional stuff)
     const password = context.data.password.substring(0, 400);
 
-
     context.data = {
       firstName,
       surname,
@@ -38,7 +36,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       gender,
       password,
       // Set the user id
-      userId: user._id,
+      userId: user._id
       // Add the current date
     };
 
