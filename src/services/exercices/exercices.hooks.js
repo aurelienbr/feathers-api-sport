@@ -1,13 +1,15 @@
 
 
+const exerciceInformation = require('../../hooks/exercice-information');
+
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [exerciceInformation()],
+    update: [exerciceInformation()],
+    patch: [exerciceInformation()],
     remove: []
   },
 
