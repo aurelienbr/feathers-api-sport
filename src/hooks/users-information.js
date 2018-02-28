@@ -13,12 +13,12 @@ module.exports = function(options = {}) {
     var error = {};
 
     let keys = [
-      "firstName",
-      "surname",
-      "email",
-      "phoneNumber",
-      "gender",
-      "password"
+      'firstName',
+      'surname',
+      'email',
+      'phoneNumber',
+      'gender',
+      'password'
     ];
 
     const resultKey = Object.keys(data).filter(
@@ -97,19 +97,17 @@ module.exports = function(options = {}) {
 
 
     if (Object.keys(error).length > 0) {
-      throw new errors.BadRequest("Invalid Parameters", error);
+      throw new errors.BadRequest('Invalid Parameters', error);
     }
-    // The authenticated user
-    const userId = context.params.user._id;
-    // The actual message text
 
     context.data = {
-      userId,
-      firstName: data.firstName,
-      surname: data.surname,
-      phoneNumber: data.phoneNumber,
-      email: data.email,
-      gender: data.gender
+      firstName: data.firstName.substring(0, 400),
+      surname: data.surname.substring(0, 400),
+      phoneNumber: data.phoneNumber.substring(0, 400),
+      email: data.email.substring(0, 400),
+      password: data.password,
+      gender: data.gender.substring(0, 400)
+
       // Add the current date
     };
 

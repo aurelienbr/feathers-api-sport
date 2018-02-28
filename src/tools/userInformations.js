@@ -34,7 +34,7 @@ module.exports = {
   },
 
   verifGender(gender){
-    if(gender != 'M' || gender != 'F'){
+    if(gender != 'M' && gender != 'F'){
       return false;
     }else{
       return true;
