@@ -88,26 +88,28 @@ module.exports = function(options = {}) {
     }
 
 
-    /*if (!data.passwordConfirmation) {
-      error.passwordConfirmation = "password confirmation is missing";
-    } else if (!validate.equalValue(data.password, data.passwordConfirmation)) {
-      error.password = "password must be same";
-      error.passwordConfirmation = "password must be same";
-    }*/
+    if(Object.keys(error).length > 0){
+      throw new errors.BadRequest('Invalid Parameters', error);
+    }
 
+    // The actual message text
+    const firstName = context.data.firstName.substring(0, 400);
+    const surname = context.data.surname.substring(0, 400);
+    const email = context.data.email.substring(0, 400);
+    const phoneNumber = context.data.phoneNumber.substring(0, 400);
+    const gender = context.data.gender.substring(0, 400);
 
     if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
     context.data = {
-      firstName: data.firstName.substring(0, 400),
-      surname: data.surname.substring(0, 400),
-      phoneNumber: data.phoneNumber.substring(0, 400),
-      email: data.email.substring(0, 400),
       password: data.password,
-      gender: data.gender.substring(0, 400)
-
+      firstName,
+      surname,
+      phoneNumber,
+      email,
+      gender
       // Add the current date
     };
 
