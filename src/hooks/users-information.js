@@ -29,20 +29,17 @@ module.exports = function(options = {}) {
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
 
-    if(data.firstName){
-      if(!validator.size16(data.firstName)){
-        error.firstName = 'too long';
-      }
-    }else if(!data.firstName){
+    if(!data.firstName){
       error.firstName = 'missing';
+    } else if (!validator.size16(data.firstName)){
+      error.firstName = 'too long';
     }
 
-    if(data.surname){
-      if(!validator.size16(data.surname)){
-        error.surname = 'too long';
-      }
-    }else if(!data.surname){
+
+    if(!data.surname){
       error.surname = 'missing';
+    } else if(!validator.size16(data.surname)){
+      error.surname = 'too long';
     }
 
 
@@ -61,30 +58,24 @@ module.exports = function(options = {}) {
       }*/
 
 
-    if(data.phoneNumber){
-      if(!validator.verifPhone(data.phoneNumber)){
-        error.phoneNumber = 'invalid phoneNumber';
-      }
-    }else if(!data.phoneNumber){
+    if(!data.phoneNumber){
       error.phoneNumber = 'missing';
+    } else if(!validator.verifPhone(data.phoneNumber)){
+      error.phoneNumber = 'invalid phoneNumber';
     }
 
 
-    if(data.gender){
-      if(!validator.verifGender(data.gender)){
-        error.gender ='Gender must be M or F';
-      }
-    }else if(!data.gender){
+    if(!data.gender){
       error.gender = 'missing';
+    } else if(!validator.verifGender(data.gender)){
+      error.gender ='Gender must be M or F';
     }
 
-    if(data.password){
-      if(!validator.verifPassword(data.password)){
-        error.password = 'invalid password';
-      }
-    }
+
     if(!data.password){
       error.password = 'missing';
+    } else if(!validator.verifPassword(data.password)){
+      error.password = 'invalid password';
     }
 
 
@@ -93,23 +84,17 @@ module.exports = function(options = {}) {
     }
 
     // The actual message text
-    const firstName = context.data.firstName.substring(0, 400);
-    const surname = context.data.surname.substring(0, 400);
-    const email = context.data.email.substring(0, 400);
-    const phoneNumber = context.data.phoneNumber.substring(0, 400);
-    const gender = context.data.gender.substring(0, 400);
-
     if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
     context.data = {
-      password: data.password,
-      firstName,
-      surname,
-      phoneNumber,
-      email,
-      gender
+      password: data.password.substring(0, 400),
+      firstName: data.firstName.substring(0, 400),
+      surname: data.surname.substring(0, 400),
+      phoneNumber: data.phoneNumber.substring(0, 400),
+      email: data.email.substring(0, 400),
+      gender: data.gender.substring(0, 400)
       // Add the current date
     };
 
