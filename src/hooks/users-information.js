@@ -1,8 +1,7 @@
-// Use this hook to manipulate incoming or outgoing data.
-// For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
+
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
-const emailValidator = require('../tools/email.js');
+//const emailValidator = require('../tools/email.js');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
@@ -36,9 +35,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if(data.email){
       if(!validator.verifMail(data.email)){
         error.email = 'invalid format';
-      }else if(!emailValidator.existMail(data.mail)){
+      }/*else if(!emailValidator.existMail(data.mail)){
         error.email = 'user already exist';
-      }
+      }*/
     }else if(!data.email){
       error.email = 'missing';
     }
