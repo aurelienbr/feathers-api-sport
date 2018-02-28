@@ -1,11 +1,14 @@
 // Initializes the `users` service on path `/users`
 const createService = require('feathers-mongodb');
+const service = require('feathers-mongoose');
 const hooks = require('./users.hooks');
+
+const Model = require('./Model');
 
 module.exports = function (app) {
   const paginate = app.get('paginate');
   const mongoClient = app.get('mongoClient');
-  const options = { paginate };
+  const options = { Model, paginate };
 
   // Initialize our service with any options it requires
   app.use('/users', createService(options));

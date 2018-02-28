@@ -8,7 +8,7 @@
   },
   "mongodb": "mongodb://localhost:27017/api_feathers",
   "authentication": {
-    "secret": "00a84a27fe2ea24d72f8fc4f4cb8920010eaaa70cfd62fcb7e241aba4a1c3dfbd76d804f6ff2866741a2d7ebf7991f1aa07ddb7c70ac8d52f6c8077b3db8dcf7f162f72d23a9fc71c8665a02a8f0dba3ddb88c22676d4bf4c4913b04ef535f1b2373ebcc8d4df268bc1b1b79b20d5c3e7e8899569e07a43f9fc42df0b633e1399459f1fb2cb58b03a46d915b4f37a4eb4d78c5328851a29f30e66abfdbbe4af500aaaaf374b85375b72f81ba191595c27945187c4b11d0d5b4263e58d916a289f108f51113eb9949467604904451d795ed18280e466f9107e8d0d902bf4eeb9a4dc935393996bf23c31bb86c203bf37eb4ed6748a58d35ee9bf8709325021925",
+    "secret": "ae6d43c51ece073c6a67cb1483d5ec10a774ccaf000e682bb4720865587ec805b1e1c24d36c08933d4a77a318586d8590a5d8500cfdf83b1f05ad45c1edb32fc9066d3dbe7bd23964879746bf2c3d74227fb8c3afbcadb635f5791da97debae7d8f69e7edc314cced8edadcb67f0a3ef449fb1a8a3365b3f61d13c01da8a95df16b7f42d45206263b949695ac52c8e93d0b96d4e5dcae0693496adb5f8ce3c35dbde5970632b85071d40db7d34f1bb90e043c70b4ea14a7b892dbac49cf1c027d69b353be8245c5bf02dc066482dd7c8f8c350f8d3cc44975c4914a4f204b606de399737cd657ca13237ef0a8640d2733cc21989f75078f2116e3f55587286b2",
     "strategies": [
       "jwt",
       "local"
@@ -29,47 +29,6 @@
       "entity": "user",
       "usernameField": "email",
       "passwordField": "password"
-    },
-    "auth0": {
-      "clientID": "your auth0 client id",
-      "clientSecret": "your auth0 client secret",
-      "successRedirect": "/",
-      "domain": "mydomain.auth0.com"
-    },
-    "google": {
-      "clientID": "your google client id",
-      "clientSecret": "your google client secret",
-      "successRedirect": "/",
-      "scope": [
-        "profile openid email"
-      ]
-    },
-    "facebook": {
-      "clientID": "your facebook client id",
-      "clientSecret": "your facebook client secret",
-      "successRedirect": "/",
-      "scope": [
-        "public_profile",
-        "email"
-      ],
-      "profileFields": [
-        "id",
-        "displayName",
-        "first_name",
-        "last_name",
-        "email",
-        "gender",
-        "profileUrl",
-        "birthday",
-        "picture",
-        "permissions"
-      ]
-    },
-    "cookie": {
-      "enabled": true,
-      "name": "feathers-jwt",
-      "httpOnly": false,
-      "secure": false
     }
   }
 }

@@ -26,9 +26,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
-    const name = context.data.name.substring(0, 400);
-    const image = context.data.image.substring(0, 400);
-    const principalMuscularGroup = context.data.principalMuscularGroup.substring(0, 400);
+    const name = data.name.substring(0, 400);
+    const image = data.image.substring(0, 400);
+    const principalMuscularGroup = data.principalMuscularGroup.substring(0, 400);
     var secondaryMuscularGroup = '';
     var description = '';
     var video = '';
@@ -37,34 +37,28 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     //var official ='';
 
     if(data.secondaryMuscularGroup){
-      secondaryMuscularGroup = context.data.secondaryMuscularGroup.substring(0, 400);
+      secondaryMuscularGroup = data.secondaryMuscularGroup.substring(0, 400);
     } else{
       secondaryMuscularGroup = 'no secondary group';
     }
 
     if(data.description){
-      description = context.data.description.substring(0, 400);
+      description = data.description.substring(0, 400);
     } else{
       description = 'no description';
     }
 
     if(data.video){
-      video = context.data.video.substring(0, 400);
+      video = data.video.substring(0, 400);
     } else{
       video = 'no video';
     }
 
     if(data.share){
-      share = context.data.share.substring(0, 400);
+      share = data.share.substring(0, 400);
     } else{
       share = 'unshared';
     }
-
-    /*if(data.official){
-      official = context.data.official.substring(0, 400);
-    } else{
-      official = 'unshared';
-    }*/
 
     context.data = {
       ownerField,

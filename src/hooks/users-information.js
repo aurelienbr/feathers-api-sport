@@ -3,16 +3,31 @@ const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
 //const emailValidator = require('../tools/email.js');
 
-module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+module.exports = function(options = {}) {
+  // eslint-disable-line no-unused-vars
   return async context => {
     const { data } = context;
-
-
-
     // Throw an error if we didn't get a text
 
-    //const stateHook =
-    var error = {} ;
+    //const stateHook  =
+    var error = {};
+
+    let keys = [
+      "firstName",
+      "surname",
+      "email",
+      "phoneNumber",
+      "gender",
+      "password"
+    ];
+
+    const resultKey = Object.keys(data).filter(
+      key => keys.includes(key) === false
+    );
+
+    if (resultKey.length > 0) {
+      throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
+    }
 
     if(data.firstName){
       if(!validator.size16(data.firstName)){
@@ -41,6 +56,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }else if(!data.email){
       error.email = 'missing';
     }
+    /*  }else if(!emailValidator.existMail(data.mail)){
+        error.email = 'user already exist';
+      }*/
 
 
     if(data.phoneNumber){
@@ -61,7 +79,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }
 
     if(data.password){
-      if(!validator.verifPassword(data.Password)){
+      if(!validator.verifPassword(data.password)){
         error.password = 'invalid password';
       }
     }
@@ -70,28 +88,28 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }
 
 
-    if(Object.keys(error).length > 0){
-      throw new errors.BadRequest('Invalid Parameters', error);
+    /*if (!data.passwordConfirmation) {
+      error.passwordConfirmation = "password confirmation is missing";
+    } else if (!validate.equalValue(data.password, data.passwordConfirmation)) {
+      error.password = "password must be same";
+      error.passwordConfirmation = "password must be same";
+    }*/
+
+
+    if (Object.keys(error).length > 0) {
+      throw new errors.BadRequest("Invalid Parameters", error);
     }
-
-
     // The authenticated user
     const userId = context.params.user._id;
     // The actual message text
-    const firstName = context.data.firstName.substring(0, 400);
-    const surname = context.data.surname.substring(0, 400);
-    const email = context.data.email.substring(0, 400);
-    const phoneNumber = context.data.phoneNumber.substring(0, 400);
-    const gender = context.data.gender.substring(0, 400);
-
 
     context.data = {
       userId,
-      firstName,
-      surname,
-      phoneNumber,
-      email,
-      gender
+      firstName: data.firstName,
+      surname: data.surname,
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      gender: data.gender
       // Add the current date
     };
 

@@ -1,6 +1,6 @@
 
 
-const exerciceInformation = require('../../hooks/exercice-information');
+const exerciceInformation = require('../../hooks/exercice-information.js');
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const hooks = require('feathers-authentication-hooks');
 

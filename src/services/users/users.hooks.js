@@ -1,28 +1,28 @@
-const { authenticate } = require('@feathersjs/authentication').hooks;
-//const userInformation = require('../../hooks/users-information');
+const { authenticate } = require("@feathersjs/authentication").hooks;
 
 const {
-  hashPassword, protect
-} = require('@feathersjs/authentication-local').hooks;
+  hashPassword,
+  protect
+} = require("@feathersjs/authentication-local").hooks;
 
-const usersInformation = require('../../hooks/users-information');
+const usersInfomation = require("../../hooks/users-information");
 
 module.exports = {
   before: {
     all: [],
-    find: [ authenticate('jwt') ],
-    get: [ authenticate('jwt') ],
-    create: [ hashPassword(), usersInformation() ],
-    update: [ hashPassword(),  authenticate('jwt') ],
-    patch: [ hashPassword(),  authenticate('jwt') ],
-    remove: [ authenticate('jwt') ]
+    find: [],
+    get: [authenticate("jwt")],
+    create: [hashPassword(), usersInfomation()],
+    update: [hashPassword(), authenticate("jwt"), usersInfomation()],
+    patch: [hashPassword(), authenticate("jwt")],
+    remove: [authenticate("jwt")]
   },
 
   after: {
     all: [
       // Make sure the password field is never sent to the client
       // Always must be the last hook
-      protect('password')
+      protect("password")
     ],
     find: [],
     get: [],
