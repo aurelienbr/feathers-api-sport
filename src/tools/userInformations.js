@@ -20,6 +20,7 @@ module.exports = {
       return true;
     }
   },
+  
 
   verifPhone(number){
     var regex = /^\+?[0-9]{10,11}$/;

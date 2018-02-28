@@ -1,6 +1,8 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const errors = require('@feathersjs/errors');
+const validator = require('../tools/userInformations.js');
+
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
@@ -29,14 +31,19 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if(!data.name){
       error.name = 'missing';
       //throw new Error('ca marche');
+    }else if (!validator.size16(data.name)){
+      error.name = 'too long';
     }
     if(!data.image){
       error.image = 'missing';
       //throw new Error('ca marche');
     }
+
     if(!data.principalMuscularGroup){
       error.principalMuscularGroup = 'missing';
       //throw new Error('ca marche');
+    }else if (!validator.size16(data.principalMuscularGroup)){
+      error.principalMuscularGroup = 'too long';
     }
 
 
@@ -51,12 +58,16 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     var description = '';
     var video = '';
     var share = '';
+    var official = '';
     var ownerId = context.params.user._id;
     //var official ='';
 
     if(data.secondaryMuscularGroup){
       secondaryMuscularGroup = data.secondaryMuscularGroup.substring(0, 400);
-    } else{
+    }else if(!validator.size16(data.secondaryMuscularGroup)){
+      error.secondaryMuscularGroup = 'too long';
+    }
+    else{
       secondaryMuscularGroup = 'no secondary group';
     }
 
@@ -78,6 +89,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       share = 'unshared';
     }
 
+
+
     context.data = {
       ownerId,
       name,
@@ -86,8 +99,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       secondaryMuscularGroup,
       description,
       video,
-      share
-
+      share,
+      official
     };
 
 

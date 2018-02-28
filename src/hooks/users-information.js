@@ -78,11 +78,6 @@ module.exports = function(options = {}) {
       error.password = 'invalid password';
     }
 
-
-    if(Object.keys(error).length > 0){
-      throw new errors.BadRequest('Invalid Parameters', error);
-    }
-
     // The actual message text
     if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
