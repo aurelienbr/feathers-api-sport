@@ -9,7 +9,7 @@ module.exports = function (app) {
     if(client.collection) {
       return client;
     }
-    
+
     return client.db(dbName);
   });
 
