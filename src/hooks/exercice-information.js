@@ -33,7 +33,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     var description = '';
     var video = '';
     var share = '';
-    var ownerField = context.params.user._id;
+    var ownerId = context.params.user._id;
     //var official ='';
 
     if(data.secondaryMuscularGroup){
@@ -61,7 +61,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }
 
     context.data = {
-      ownerField,
+      ownerId,
       name,
       image,
       principalMuscularGroup,
