@@ -8,6 +8,24 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
     var error = {} ;
 
+    let keys = [
+      'name',
+      'image',
+      'principalMuscularGroup',
+      'secondaryMuscularGroup',
+      'description',
+      'video',
+      'share'
+    ];
+
+    const resultKey = Object.keys(data).filter(
+      key => keys.includes(key) === false
+    );
+
+    if (resultKey.length > 0) {
+      throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
+    }
+
     if(!data.name){
       error.name = 'missing';
       //throw new Error('ca marche');
