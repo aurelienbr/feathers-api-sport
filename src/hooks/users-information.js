@@ -36,9 +36,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if(data.email){
       if(!validator.verifMail(data.email)){
         error.email = 'invalid format';
-      }else if(!emailValidator.existMail(data.mail)){
+      }/*else if(!emailValidator.existMail(data.mail)){
         error.email = 'user already exist';
-      }
+      }*/
     }else if(!data.email){
       error.email = 'missing';
     }
@@ -62,7 +62,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }
 
     if(data.password){
-      if(!validator.verifPassword(data.Password)){
+      if(!validator.verifPassword(data.password)){
         error.password = 'invalid password';
       }
     }
@@ -75,9 +75,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
-
-    // The authenticated user
-    const userId = context.params.user._id;
     // The actual message text
     const firstName = context.data.firstName.substring(0, 400);
     const surname = context.data.surname.substring(0, 400);
@@ -87,7 +84,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
 
     context.data = {
-      userId,
+      password: data.password,
       firstName,
       surname,
       phoneNumber,
