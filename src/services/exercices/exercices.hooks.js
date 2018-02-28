@@ -1,16 +1,18 @@
 
 
-const exerciceInformation = require('../../hooks/exercice-information');
+const exerciceInformation = require('../../hooks/exercice-information.js');
+const { authenticate } = require('@feathersjs/authentication').hooks;
+const hooks = require('feathers-authentication-hooks');
 
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [exerciceInformation()],
-    update: [exerciceInformation()],
-    patch: [exerciceInformation()],
-    remove: []
+    create: [authenticate('jwt'), exerciceInformation()],
+    update: [authenticate('jwt'), exerciceInformation()],
+    patch: [authenticate('jwt'), exerciceInformation()],
+    remove: [hooks.restrictToOwner({ idField: 'id', ownerField: 'sentBy' })]
   },
 
   after: {

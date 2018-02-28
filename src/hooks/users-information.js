@@ -1,7 +1,8 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-const errors = require("@feathersjs/errors");
-const validate = require("../validate.js");
+const errors = require('@feathersjs/errors');
+const validator = require('../tools/userInformations.js');
+const emailValidator = require('../tools/email.js');
 
 module.exports = function(options = {}) {
   // eslint-disable-line no-unused-vars
@@ -11,11 +12,6 @@ module.exports = function(options = {}) {
 
     //const stateHook  =
     var error = {};
-
-    var result = app.service('users').find({
-      query: { email: data.email}
-    })
-    console.log(result);
 
     let keys = [
       "firstName",
@@ -34,29 +30,58 @@ module.exports = function(options = {}) {
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
 
-    if (!data.firstName) {
-      error.firstName = "first name is missing";
-    }
-    if (!data.surname) {
-      error.surname = "surname is missing";
-    }
-    if (!data.email) {
-      error.email = "email is missing";
-    }
-    if (!validate.isEmail(data.email)) {
-      error.email = "email is wrongly formated";
-    }
-    if (!data.phoneNumber) {
-      error.phoneNumber = "phone number is missing";
-    }
-    if (!data.gender) {
-      error.gender = "gender is missing";
-    }
-    if (!data.password) {
-      error.password = "password is missing";
+    if(data.firstName){
+      if(!validator.size16(data.firstName)){
+        error.firstName = 'too long';
+      }
+    }else if(!data.firstName){
+      error.firstName = 'missing';
     }
 
-    // TODO
+    if(data.surname){
+      if(!validator.size16(data.surname)){
+        error.surname = 'too long';
+      }
+    }else if(!data.surname){
+      error.surname = 'missing';
+    }
+
+    if(!data.email || !validator.verifMail(data.email)){
+      error.email = 'invalid format';
+    } else if(!data.email){
+      error.email = 'missing';
+    }
+    /*  }else if(!emailValidator.existMail(data.mail)){
+        error.email = 'user already exist';
+      }*/
+
+
+    if(data.phoneNumber){
+      if(!validator.verifPhone(data.phoneNumber)){
+        error.phoneNumber = 'invalid phoneNumber';
+      }
+    }else if(!data.phoneNumber){
+      error.phoneNumber = 'missing';
+    }
+
+
+    if(data.gender){
+      if(!validator.verifGender(data.gender)){
+        error.gender ='Gender must be M or F';
+      }
+    }else if(!data.gender){
+      error.gender = 'missing';
+    }
+
+    if(data.password){
+      if(!validator.verifPassword(data.Password)){
+        error.password = 'invalid password';
+      }
+    }
+    if(!data.password){
+      error.password = 'missing';
+    }
+
 
     /*if (!data.passwordConfirmation) {
       error.passwordConfirmation = "password confirmation is missing";
@@ -70,17 +95,16 @@ module.exports = function(options = {}) {
       throw new errors.BadRequest("Invalid Parameters", error);
     }
     // The authenticated user
-    const user = context.params.user;
+    const userId = context.params.user._id;
     // The actual message text
 
     context.data = {
-      firstName: data.firstName.substring(0, 400),
-      surname: data.surname.substring(0, 400),
-      phoneNumber: data.email.substring(0, 400),
-      email: data.phoneNumber.substring(0, 400),
-      gender: data.gender.substring(0, 400),
-      password: data.password.substring(0, 400)
-
+      userId,
+      firstName: data.firstName,
+      surname: data.surname,
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      gender: data.gender
       // Add the current date
     };
 

@@ -39,6 +39,7 @@
     "@feathersjs/socketio": "^3.0.2",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
+    "feathers-authentication-hooks": "^0.1.7",
     "feathers-mongodb": "^3.0.0",
     "feathers-mongoose": "^6.1.0",
     "helmet": "^3.9.0",
