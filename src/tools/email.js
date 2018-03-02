@@ -1,13 +1,15 @@
-const express = require('@feathersjs/express');
-const feathers = require('@feathersjs/feathers');
+module.exports = {
+  async existMail(email, service){
+    const result = await service.find({
+      query: {
+        email,
+        $limit: 0
+      }
+    });
 
-module.exports = function (app)  {
-  var user = app.service('users').find({
-    query: {
-      email: '1@example.com'
+    if(result.total > 0) {
+      return false;
     }
-  });
-  return user;
-
-
+    return true;
+  }
 };

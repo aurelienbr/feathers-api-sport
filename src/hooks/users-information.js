@@ -6,10 +6,11 @@ const emailValidator = require('../tools/email.js');
 module.exports = function(options = {}) {
   // eslint-disable-line no-unused-vars
   return async context => {
-    const { data } = context;
+    const { data, app } = context;
     // Throw an error if we didn't get a text
 
     //const stateHook  =
+    const userService = app.service('users');
     var error = {};
 
     let keys = [
@@ -44,15 +45,22 @@ module.exports = function(options = {}) {
 
 
 
-    if(data.email){
-      if(!validator.verifMail(data.email)){
-        error.email = 'invalid format';
-      }/*else if(!emailValidator.existMail(data.mail)){
-        error.email = 'user already exist';
-      }*/
-    }else if(!data.email){
+    if(!data.email){
       error.email = 'missing';
     }
+
+    if(!validator.verifMail(data.email)){
+      error.email = 'invalid format';
+    }
+
+    const emailValid = await emailValidator.existMail(data.email, userService);
+    if(!emailValid) {
+      error.email = `email ${data.email} is already taken`;
+    }
+
+    /*  }else if(!emailValidator.existMail(data.mail)){
+        error.email = 'user already exist';
+      }*/
 
 
     if(!data.phoneNumber){
