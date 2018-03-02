@@ -1,16 +1,16 @@
 
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
-const emailValidator = require('../tools/email.js');
+const usersService = require('../tools/service-users.js');
 
-module.exports = function(options = {}) {
+module.exports = function() {
   // eslint-disable-line no-unused-vars
   return async context => {
     const { data, app } = context;
     // Throw an error if we didn't get a text
 
     //const stateHook  =
-    const userService = app.service('users');
+    const serviceUsers = app.service('users');
     var error = {};
 
     let keys = [
@@ -36,14 +36,11 @@ module.exports = function(options = {}) {
       error.firstName = 'too long';
     }
 
-
     if(!data.surname){
       error.surname = 'missing';
     } else if(!validator.size16(data.surname)){
       error.surname = 'too long';
     }
-
-
 
     if(!data.email){
       error.email = 'missing';
@@ -52,16 +49,11 @@ module.exports = function(options = {}) {
     if(!validator.verifMail(data.email)){
       error.email = 'invalid format';
     }
-    
-    const emailValid = await emailValidator.existMail(data.email, userService);
+
+    const emailValid = await usersService.verifEmail(data.email, serviceUsers);
     if(!emailValid) {
       error.email = `email ${data.email} is already taken`;
     }
-
-    /*  }else if(!emailValidator.existMail(data.mail)){
-        error.email = 'user already exist';
-      }*/
-
 
     if(!data.phoneNumber){
       error.phoneNumber = 'missing';
@@ -88,17 +80,12 @@ module.exports = function(options = {}) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
-    // The actual message text
-    if (Object.keys(error).length > 0) {
-      throw new errors.BadRequest('Invalid Parameters', error);
-    }
-
     context.data = {
       password: data.password.substring(0, 400),
-      firstName: data.firstName.substring(0, 400),
-      surname: data.surname.substring(0, 400),
+      firstName: data.firstName.substring(0, 400), // TODO first letter maj and others lowercase
+      surname: data.surname.substring(0, 400), // TODO same
       phoneNumber: data.phoneNumber.substring(0, 400),
-      email: data.email.substring(0, 400),
+      email: data.email.tolowerCase().substring(0, 400),
       gender: data.gender.substring(0, 400)
       // Add the current date
     };
