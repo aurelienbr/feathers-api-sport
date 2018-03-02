@@ -1,7 +1,7 @@
 
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
-//const emailValidator = require('../tools/email.js');
+const emailValidator = require('../tools/email.js');
 
 module.exports = function(options = {}) {
   // eslint-disable-line no-unused-vars
@@ -53,9 +53,6 @@ module.exports = function(options = {}) {
     }else if(!data.email){
       error.email = 'missing';
     }
-    /*  }else if(!emailValidator.existMail(data.mail)){
-        error.email = 'user already exist';
-      }*/
 
 
     if(!data.phoneNumber){
