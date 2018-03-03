@@ -1,19 +1,21 @@
+// Use this hook to manipulate incoming or outgoing data.
+// For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
-const serviceMuscles = require('../tools/service-muscles.js');
 
-module.exports = function() {
-  // eslint-disable-line no-unused-vars
+module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
-    const { data, app } = context;
-    // Throw an error if we didn't get a text
+    const { data } = context;
 
-    //const stateHook  =
-    const muscleService = app.service('muscles');
     var error = {};
 
     let keys = [
-      'name'
+      'name',
+      'image',
+      'exercicesList',
+      'description',
+      'share',
+      'official'
     ];
 
     const resultKey = Object.keys(data).filter(
@@ -30,24 +32,50 @@ module.exports = function() {
       error.name = 'too long';
     }
 
-    const name = data.name.toLowerCase().substring(0, 400);
-
-    const nameValid = await serviceMuscles.verifMuscle(name, muscleService);
-    if(!nameValid) {
-      error.name = `The muscle ${name} is already present`;
+    if(!data.exercicesList){
+      error.exercicesList = 'missing';
     }
 
-
-    if(Object.keys(error).length > 0){
+    if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
+    const name = data.name.substring(0, 400);
+    const exercicesList = data.exercicesList;
+    var description = '';
+    var share = '';
+    var image = '';
+    var official = '';
+    var ownerId = context.params.user._id;
+
+    if(data.description){
+      description = data.description.substring(0, 400);
+    } else{
+      description = 'no description';
+    }
+
+    if(data.image){
+      description = data.image.substring(0, 400);
+    } else{
+      description = 'no description';
+    }
+
+    if(data.share){
+      share = data.share.substring(0, 400);
+    } else{
+      share = 'unshared';
+    }
+
 
     context.data = {
+      ownerId,
       name,
-      // Add the current date
+      exercicesList,
+      description,
+      share,
+      image,
+      official
     };
 
-    // Best practise, hooks should always return the context
     return context;
   };
 };

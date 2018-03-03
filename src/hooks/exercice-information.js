@@ -10,9 +10,28 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const musclesService = app.service('muscles');
     var error = {} ;
 
+    let keys = [
+      'name',
+      'image',
+      'principalMuscularGroup',
+      'secondaryMuscularGroup',
+      'description',
+      'video',
+      'share'
+    ];
+
+    const resultKey = Object.keys(data).filter(
+      key => keys.includes(key) === false
+    );
+
+    if (resultKey.length > 0) {
+      throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
+    }
+
     if(!data.name){
       error.name = 'missing';
     }
+
     if(!data.principalMuscularGroup){
       error.principalMuscularGroup = 'missing';
     }
@@ -77,6 +96,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }else {
       share = 'unshared';
     }
+
+
 
     context.data = {
       principalMuscularGroupID,
