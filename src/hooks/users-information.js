@@ -85,7 +85,7 @@ module.exports = function() {
       firstName: data.firstName.substring(0, 400), // TODO first letter maj and others lowercase
       surname: data.surname.substring(0, 400), // TODO same
       phoneNumber: data.phoneNumber.substring(0, 400),
-      email: data.email.tolowerCase().substring(0, 400),
+      email: data.email.toLowerCase().substring(0, 400),
       gender: data.gender.substring(0, 400)
       // Add the current date
     };
