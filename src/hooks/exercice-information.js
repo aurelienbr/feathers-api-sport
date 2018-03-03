@@ -6,7 +6,9 @@ const validator = require('../tools/userInformations.js');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
-    const { data } = context;
+    const { data, app } = context;
+
+    //const exerciceService = app.service('exercices');
 
     var error = {} ;
 

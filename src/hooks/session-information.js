@@ -2,11 +2,17 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
+const exercicesValidator = require ('../tools/exercice.js');
+const sessionsValidator = require ('../tools/session.js');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
-    const { data } = context;
+    const { data, app } = context;
 
+    const exerciceService = app.service('exercices');
+    const sessionService = app.service('sessions');
+
+    //var ownerId = context.params.user._id;
     var error = {};
 
     let keys = [
@@ -26,14 +32,31 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
 
+    const sessionValid = await sessionsValidator.existSession('5a96e3f7e296d20184f23f4f', data.name, sessionService);
     if(!data.name){
       error.name = 'missing';
-    } else if (!validator.size16(data.name)){
+    } else if (!sessionValid) {
+      error.name = `session ${data.name} already exist `;
+    }else if (!validator.size16(data.name)){
       error.name = 'too long';
     }
 
     if(!data.exercicesList){
       error.exercicesList = 'missing';
+    }else{
+      for (var i in data.exercicesList){
+        const exercicesExist = await exercicesValidator.existExercice(data.exercicesList[i], exerciceService);
+        if(!exercicesExist){
+          if(!error.exercicesList){
+            error.exercicesList = '';
+          }
+          error.exercicesList += `${data.exercicesList[i]}, `;
+        }
+
+      }
+      if(error.exercicesList){
+        error.exercicesList += ' are missing exercices ';
+      }
     }
 
     if (Object.keys(error).length > 0) {
@@ -45,7 +68,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     var share = '';
     var image = '';
     var official = '';
-    var ownerId = context.params.user._id;
 
     if(data.description){
       description = data.description.substring(0, 400);
