@@ -23,7 +23,7 @@ module.exports = function() {
       contextResult = [...contextResult, {
         secondaryMuscularGroup,
         principalMusculargroup,
-        ownerField: data.ownerField,
+        ownerId: data.ownerId,
         name: data.name,
         image: data.image,
         description: data.description,

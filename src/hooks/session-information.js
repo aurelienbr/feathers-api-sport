@@ -2,17 +2,18 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
-const exercicesValidator = require ('../tools/exercice.js');
-const sessionsValidator = require ('../tools/session.js');
+const exercicesValidator = require ('../tools/service-exercice.js');
+const serviceSession = require ('../tools/service-session.js');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data, app } = context;
 
-    const exerciceService = app.service('exercices');
+    //const exerciceService = app.service('exercices');
     const sessionService = app.service('sessions');
 
     //var ownerId = context.params.user._id;
+    var ownerId = '5a96e3f7e296d20184f23f4f';
     var error = {};
 
     let keys = [
@@ -32,7 +33,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
 
-    const sessionValid = await sessionsValidator.existSession('5a96e3f7e296d20184f23f4f', data.name, sessionService);
+    const sessionValid = await serviceSession.searchIdSession(data.name, ownerId,sessionService);
     if(!data.name){
       error.name = 'missing';
     } else if (!sessionValid) {
@@ -41,21 +42,15 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       error.name = 'too long';
     }
 
+    let exercicesList = [];
+
     if(!data.exercicesList){
       error.exercicesList = 'missing';
-    }else{
-      for (var i in data.exercicesList){
-        const exercicesExist = await exercicesValidator.existExercice(data.exercicesList[i], exerciceService);
-        if(!exercicesExist){
-          if(!error.exercicesList){
-            error.exercicesList = '';
-          }
-          error.exercicesList += `${data.exercicesList[i]}, `;
-        }
-
-      }
-      if(error.exercicesList){
-        error.exercicesList += ' are missing exercices ';
+    }else if (data.exercicesList){
+      try {
+        exercicesList = await serviceSession.searchExercice(data.exercicesList,sessionService);
+      } catch (e) {
+        error.exercicesList = e.message;
       }
     }
 
@@ -63,7 +58,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       throw new errors.BadRequest('Invalid Parameters', error);
     }
     const name = data.name.substring(0, 400);
-    const exercicesList = data.exercicesList;
     var description = '';
     var share = '';
     var image = '';

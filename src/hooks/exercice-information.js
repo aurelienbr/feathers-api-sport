@@ -2,12 +2,17 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const errors = require('@feathersjs/errors');
 const serviceMuscles = require('../tools/service-muscles.js');
+const serviceExercices = require('../tools/service-exercice.js');
+const validator = require('../tools/userInformations.js');
 
-module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+module.exports = function (/*options = {}*/) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data, app } = context;
 
     const musclesService = app.service('muscles');
+    const exerciceService = app.service('exercices');
+    const ownerId = context.params.user._id;
+    //const ownerId = '5a96e3f7e296d20184f23f4f';
     var error = {} ;
 
     let keys = [
@@ -27,9 +32,17 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if (resultKey.length > 0) {
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
-
+    let name = '';
     if(!data.name){
       error.name = 'missing';
+    } else if (!validator.size16(data.name)){
+      error.name = 'too long';
+    }else{
+      try{
+        name = await serviceExercices.verifExercice(data.name.toLowerCase().substring(0, 400), ownerId, exerciceService);
+      }catch(e) {
+        error.name = e.message;
+      }
     }
 
     if(!data.principalMuscularGroup){
@@ -62,14 +75,14 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
-    const name = data.name.substring(0, 400);
+    //const name = data.name.substring(0, 400);
     // TODO
 
     var description = '';
     var video = '';
     var share = '';
     var image = '';
-    var ownerField = context.params.user._id;
+    //var ownerId = context.params.user._id;
     //var official ='';
 
     if(data.description){
@@ -102,7 +115,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     context.data = {
       principalMuscularGroupID,
       secondaryMuscularGroupID,
-      ownerField,
+      ownerId,
       name,
       image,
       description,
