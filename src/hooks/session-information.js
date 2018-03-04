@@ -9,7 +9,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data, app } = context;
 
-    //const exerciceService = app.service('exercices');
+    const exerciceService = app.service('exercices');
     const sessionService = app.service('sessions');
 
     var ownerId = context.params.user._id;
@@ -40,9 +40,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       error.name = 'too long';
     }else{
       try{
-        name = await serviceSessions.verifSessions(data.name.toLowerCase().substring(0, 400), ownerId, sessionService);
+        name = await serviceSessions.verifSession(data.name.toLowerCase().substring(0, 400), ownerId, sessionService);
       }catch(e) {
-        error.name = e.message;
+        throw new errors.BadRequest(e.message);
       }
     }
 
@@ -52,16 +52,16 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       error.exercicesList = 'missing';
     }else if (data.exercicesList){
       try {
-        exercicesList = await serviceSessions.searchExercice(data.exercicesList,sessionService);
+        exercicesList = await serviceSessions.searchExercice(data.exercicesList,exerciceService);
       } catch (e) {
-        error.exercicesList = e.message;
+        throw new errors.BadRequest(e.message);
       }
     }
 
     if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
-    
+
     var description = '';
     var share = '';
     var image = '';

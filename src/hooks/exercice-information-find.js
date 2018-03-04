@@ -4,6 +4,8 @@ module.exports = function() {
   // eslint-disable-line no-unused-vars
   return async context => {
     const { result, app } = context;
+
+    //console.log(context);
     // Throw an error if we didn't get a text
     const musclesService = app.service('muscles');
     let error = {};
@@ -19,10 +21,11 @@ module.exports = function() {
           error.secondaryMuscularGroup = e.message;
         }
       }
-      let principalMusculargroup = await serviceMuscles.searchNameMusclesPrincipal(data.principalMuscularGroupID, musclesService);
+      let principalMuscularGroup = await serviceMuscles.searchNameMusclesPrincipal(data.principalMuscularGroupID, musclesService);
+      //console.log(principalMuscularGroup);
       contextResult = [...contextResult, {
         secondaryMuscularGroup,
-        principalMusculargroup,
+        principalMuscularGroup,
         ownerId: data.ownerId,
         name: data.name,
         image: data.image,
@@ -30,8 +33,11 @@ module.exports = function() {
         video: data.video,
         share: data.share
       }];
+
     }
     context.result = contextResult;
+
+
     // Best practise, hooks should always return the context
     return context;
   };

@@ -41,6 +41,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       try{
         name = await serviceExercices.verifExercice(data.name.toLowerCase().substring(0, 400), ownerId, exerciceService);
       }catch(e) {
+
         error.name = e.message;
       }
     }
@@ -111,7 +112,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }
 
 
-
+    //console.log(context);
     context.data = {
       principalMuscularGroupID,
       secondaryMuscularGroupID,

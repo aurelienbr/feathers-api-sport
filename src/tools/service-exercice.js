@@ -8,7 +8,7 @@ module.exports = {
         $limit: 0
       }
     });
-    if(result.total > 0) {
+    if(result.length > 0) {
       throw new Error(`Exercice ${name} already exist`);
     }
     return name;
