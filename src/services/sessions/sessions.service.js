@@ -2,7 +2,7 @@
 const createService = require('feathers-mongodb');
 const hooks = require('./sessions.hooks');
 
-module.exports = function (app) {
+module.exports = function(app) {
   const paginate = app.get('paginate');
   const mongoClient = app.get('mongoClient');
   const options = { paginate };

@@ -2,7 +2,7 @@ const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
 const exerciceInformation = require('../../src/hooks/exercice-information');
 
-describe('\'exerciceInformation\' hook', () => {
+describe('"exerciceInformatio" hook', () => {
   let app;
 
   beforeEach(() => {

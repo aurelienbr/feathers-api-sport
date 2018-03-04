@@ -2,7 +2,7 @@ const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
 const usersInformation = require('../../src/hooks/users-information');
 
-describe('\'users-information\' hook', () => {
+describe(' "users-information" hook', () => {
   let app;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('\'users-information\' hook', () => {
 
   it('runs the hook', async () => {
     const result = await app.service('dummy').get('test');
-    
+
     assert.deepEqual(result, { id: 'test' });
   });
 });

@@ -12,9 +12,7 @@ module.exports = function() {
     const muscleService = app.service('muscles');
     var error = {};
 
-    let keys = [
-      'name'
-    ];
+    let keys = ['name'];
 
     const resultKey = Object.keys(data).filter(
       key => keys.includes(key) === false
@@ -24,26 +22,25 @@ module.exports = function() {
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
 
-    if(!data.name){
+    if (!data.name) {
       error.name = 'missing';
-    } else if (!validator.size16(data.name)){
+    } else if (!validator.size16(data.name)) {
       error.name = 'too long';
     }
 
     const name = data.name.toLowerCase().substring(0, 400);
 
     const nameValid = await serviceMuscles.verifMuscle(name, muscleService);
-    if(!nameValid) {
+    if (!nameValid) {
       error.name = `The muscle ${name} is already present`;
     }
 
-
-    if(Object.keys(error).length > 0){
+    if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
     context.data = {
-      name,
+      name
       // Add the current date
     };
 
