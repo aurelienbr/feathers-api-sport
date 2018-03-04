@@ -4,9 +4,7 @@
   "version": "0.0.0",
   "homepage": "",
   "main": "src",
-  "keywords": [
-    "feathers"
-  ],
+  "keywords": ["feathers"],
   "author": {
     "name": "Guillaume Moreau",
     "email": "guillaume.moreau@viacesi.fr"
@@ -22,6 +20,7 @@
     "npm": ">= 3.0.0"
   },
   "scripts": {
+    "precommit": "pretty-quick --staged",
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "nodemon src/",
