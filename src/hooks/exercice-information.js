@@ -32,6 +32,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if (resultKey.length > 0) {
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
+
     let name = '';
     if(!data.name){
       error.name = 'missing';
