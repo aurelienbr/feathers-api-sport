@@ -31,7 +31,8 @@ module.exports = function() {
         share: data.share
       }];
     }
-    context.result = contextResult;
+
+    context.result = { ...context.result, data: contextResult};
     // Best practise, hooks should always return the context
     return context;
   };
