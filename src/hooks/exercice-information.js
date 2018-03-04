@@ -5,7 +5,7 @@ const serviceMuscles = require('../tools/service-muscles.js');
 const serviceExercices = require('../tools/service-exercice.js');
 const validator = require('../tools/userInformations.js');
 
-module.exports = function (/*options = {}*/) { // eslint-disable-line no-unused-vars
+module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const { data, app } = context;
 

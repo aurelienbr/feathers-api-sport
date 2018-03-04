@@ -1,6 +1,6 @@
 module.exports = {
 
-  async verifMuscle(value,ownerId, service){
+  async verifSession(value,ownerId, service){
     const name = value.toLowerCase();
     const result = await service.find({
       query: {
@@ -10,9 +10,9 @@ module.exports = {
       }
     });
     if(result.total > 0) {
-      return false;
+      throw new Error(`Session ${name} already exist`);
     }
-    return true;
+    return name;
   },
   async searchNameSession(_id, ownerId, service){
     const result = await service.find({

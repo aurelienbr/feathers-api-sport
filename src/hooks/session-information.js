@@ -3,7 +3,7 @@
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
 const exercicesValidator = require ('../tools/service-exercice.js');
-const serviceSession = require ('../tools/service-session.js');
+const serviceSessions = require ('../tools/service-session.js');
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
@@ -12,8 +12,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     //const exerciceService = app.service('exercices');
     const sessionService = app.service('sessions');
 
-    //var ownerId = context.params.user._id;
-    var ownerId = '5a96e3f7e296d20184f23f4f';
+    var ownerId = context.params.user._id;
+    //var ownerId = '5a96e3f7e296d20184f23f4f';
     var error = {};
 
     let keys = [
@@ -33,13 +33,17 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
 
-    const sessionValid = await serviceSession.searchIdSession(data.name, ownerId,sessionService);
+    let name = '';
     if(!data.name){
       error.name = 'missing';
-    } else if (!sessionValid) {
-      error.name = `session ${data.name} already exist `;
-    }else if (!validator.size16(data.name)){
+    } else if (!validator.size16(data.name)){
       error.name = 'too long';
+    }else{
+      try{
+        name = await serviceSessions.verifSessions(data.name.toLowerCase().substring(0, 400), ownerId, sessionService);
+      }catch(e) {
+        error.name = e.message;
+      }
     }
 
     let exercicesList = [];
@@ -48,7 +52,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       error.exercicesList = 'missing';
     }else if (data.exercicesList){
       try {
-        exercicesList = await serviceSession.searchExercice(data.exercicesList,sessionService);
+        exercicesList = await serviceSessions.searchExercice(data.exercicesList,sessionService);
       } catch (e) {
         error.exercicesList = e.message;
       }
@@ -57,7 +61,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
-    const name = data.name.substring(0, 400);
+    
     var description = '';
     var share = '';
     var image = '';
