@@ -38,7 +38,7 @@ module.exports = {
       return undefined;
     }
     return result.data[0]._id;
-  },
+  } /*,
   async searchExercice(arrayId, service) {
     let result = [];
     for (const _id of arrayId) {
@@ -48,11 +48,11 @@ module.exports = {
         }
       });
       if (exerciceResult.data <= 0) {
-        throw new Error(`id ${_id} does not exist`);
+        throw new Error(`Exercice with id ${_id} does not exist`);
       }
-      result = [...result, exerciceResult.data[0]._id];
+      result = [...result, exerciceResult.data[0].name];
     }
 
     return result;
-  }
+  }*/
 };

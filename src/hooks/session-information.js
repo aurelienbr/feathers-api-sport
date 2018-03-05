@@ -2,7 +2,7 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
-const exercicesValidator = require('../tools/service-exercice.js');
+const serviceExercices = require('../tools/service-exercice.js');
 const serviceSessions = require('../tools/service-session.js');
 
 module.exports = function(options = {}) {
@@ -13,7 +13,7 @@ module.exports = function(options = {}) {
     const exerciceService = app.service('exercices');
     const sessionService = app.service('sessions');
 
-    var ownerId = context.params.user._id;
+    const ownerId = context.params.user._id;
     //var ownerId = '5a96e3f7e296d20184f23f4f';
     var error = {};
 
@@ -41,7 +41,7 @@ module.exports = function(options = {}) {
       error.name = 'too long';
     } else {
       try {
-        name = await serviceSessions.verifSessions(
+        name = await serviceSessions.verifSession(
           data.name.toLowerCase().substring(0, 400),
           ownerId,
           sessionService
@@ -57,9 +57,9 @@ module.exports = function(options = {}) {
       error.exercicesList = 'missing';
     } else if (data.exercicesList) {
       try {
-        exercicesList = await serviceSessions.searchExercice(
+        exercicesList = await serviceExercices.verifExerciceList(
           data.exercicesList,
-          sessionService
+          exerciceService
         );
       } catch (e) {
         throw new errors.BadRequest(e.message);

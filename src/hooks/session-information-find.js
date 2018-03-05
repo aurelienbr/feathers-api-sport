@@ -1,4 +1,4 @@
-const serviceMuscles = require('../tools/service-muscles.js');
+const serviceExercices = require('../tools/service-exercice.js');
 
 module.exports = function() {
   // eslint-disable-line no-unused-vars
@@ -7,32 +7,27 @@ module.exports = function() {
 
     //console.log(context);
     // Throw an error if we didn't get a text
-    const musclesService = app.service('muscles');
+    const exerciceService = app.service('exercices');
     let error = {};
     //const stateHook  =
     let contextResult = [];
     for (const data of result.data) {
-      let secondaryMuscularGroup = [];
-      if (data.secondaryMuscularGroupID.length > 0) {
+      let exercicesList = [];
+      if (data.exercicesList.length > 0) {
         try {
-          secondaryMuscularGroup = await serviceMuscles.searchNameMusclesSecondary(
-            data.secondaryMuscularGroupID,
-            musclesService
+          exercicesList = await serviceExercices.searchExerciceList(
+            data.exercicesList,
+            exerciceService
           );
         } catch (e) {
           // TODO
-          error.secondaryMuscularGroup = e.message;
+          error.exercicesList = e.message;
         }
       }
-      let principalMusculargroup = await serviceMuscles.searchNameMusclesPrincipal(
-        data.principalMuscularGroupID,
-        musclesService
-      );
       contextResult = [
         ...contextResult,
         {
-          secondaryMuscularGroup,
-          principalMusculargroup,
+          exercicesList,
           ownerId: data.ownerId,
           name: data.name,
           image: data.image,
