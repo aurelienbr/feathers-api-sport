@@ -39,13 +39,6 @@ module.exports = function(options = {}) {
       error.name = 'missing';
     } else if (!validator.size16(data.name)) {
       error.name = 'too long';
-<<<<<<< HEAD
-    }else{
-      try{
-        name = await serviceExercices.verifExercice(data.name.toLowerCase().substring(0, 400), ownerId, exerciceService);
-      }catch(e) {
-
-=======
     } else {
       try {
         name = await serviceExercices.verifExercice(
@@ -54,7 +47,6 @@ module.exports = function(options = {}) {
           exerciceService
         );
       } catch (e) {
->>>>>>> 6c5d3610bb08f14411add110891dc029e6f481e4
         error.name = e.message;
       }
     }

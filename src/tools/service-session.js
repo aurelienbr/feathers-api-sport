@@ -1,9 +1,5 @@
 module.exports = {
-<<<<<<< HEAD
-  async verifSession(value, ownerId, service){
-=======
   async verifSession(value, ownerId, service) {
->>>>>>> 6c5d3610bb08f14411add110891dc029e6f481e4
     const name = value.toLowerCase();
     const result = await service.find({
       query: {
