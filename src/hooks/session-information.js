@@ -2,10 +2,11 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
-const exercicesValidator = require ('../tools/service-exercice.js');
-const serviceSessions = require ('../tools/service-session.js');
+const exercicesValidator = require('../tools/service-exercice.js');
+const serviceSessions = require('../tools/service-session.js');
 
-module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+module.exports = function(options = {}) {
+  // eslint-disable-line no-unused-vars
   return async context => {
     const { data, app } = context;
 
@@ -34,25 +35,32 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }
 
     let name = '';
-    if(!data.name){
+    if (!data.name) {
       error.name = 'missing';
-    } else if (!validator.size16(data.name)){
+    } else if (!validator.size16(data.name)) {
       error.name = 'too long';
-    }else{
-      try{
-        name = await serviceSessions.verifSession(data.name.toLowerCase().substring(0, 400), ownerId, sessionService);
-      }catch(e) {
-        throw new errors.BadRequest(e.message);
+    } else {
+      try {
+        name = await serviceSessions.verifSessions(
+          data.name.toLowerCase().substring(0, 400),
+          ownerId,
+          sessionService
+        );
+      } catch (e) {
+        error.name = e.message;
       }
     }
 
     let exercicesList = [];
 
-    if(!data.exercicesList){
+    if (!data.exercicesList) {
       error.exercicesList = 'missing';
-    }else if (data.exercicesList){
+    } else if (data.exercicesList) {
       try {
-        exercicesList = await serviceSessions.searchExercice(data.exercicesList,exerciceService);
+        exercicesList = await serviceSessions.searchExercice(
+          data.exercicesList,
+          sessionService
+        );
       } catch (e) {
         throw new errors.BadRequest(e.message);
       }
@@ -67,24 +75,23 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     var image = '';
     var official = '';
 
-    if(data.description){
+    if (data.description) {
       description = data.description.substring(0, 400);
-    } else{
+    } else {
       description = 'no description';
     }
 
-    if(data.image){
+    if (data.image) {
       description = data.image.substring(0, 400);
-    } else{
+    } else {
       description = 'no description';
     }
 
-    if(data.share){
+    if (data.share) {
       share = data.share.substring(0, 400);
-    } else{
+    } else {
       share = 'unshared';
     }
-
 
     context.data = {
       ownerId,

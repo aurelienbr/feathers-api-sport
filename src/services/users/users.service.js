@@ -5,7 +5,7 @@ const hooks = require('./users.hooks');
 
 const Model = require('./Model');
 
-module.exports = function (app) {
+module.exports = function(app) {
   const paginate = app.get('paginate');
   const mongoClient = app.get('mongoClient');
   const options = { Model, paginate };

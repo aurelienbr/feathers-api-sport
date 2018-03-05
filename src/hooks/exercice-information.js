@@ -5,7 +5,8 @@ const serviceMuscles = require('../tools/service-muscles.js');
 const serviceExercices = require('../tools/service-exercice.js');
 const validator = require('../tools/userInformations.js');
 
-module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+module.exports = function(options = {}) {
+  // eslint-disable-line no-unused-vars
   return async context => {
     const { data, app } = context;
 
@@ -13,7 +14,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     const exerciceService = app.service('exercices');
     const ownerId = context.params.user._id;
     //const ownerId = '5a96e3f7e296d20184f23f4f';
-    var error = {} ;
+    var error = {};
 
     let keys = [
       'name',
@@ -34,46 +35,65 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     }
 
     let name = '';
-    if(!data.name){
+    if (!data.name) {
       error.name = 'missing';
-    } else if (!validator.size16(data.name)){
+    } else if (!validator.size16(data.name)) {
       error.name = 'too long';
+<<<<<<< HEAD
     }else{
       try{
         name = await serviceExercices.verifExercice(data.name.toLowerCase().substring(0, 400), ownerId, exerciceService);
       }catch(e) {
 
+=======
+    } else {
+      try {
+        name = await serviceExercices.verifExercice(
+          data.name.toLowerCase().substring(0, 400),
+          ownerId,
+          exerciceService
+        );
+      } catch (e) {
+>>>>>>> 6c5d3610bb08f14411add110891dc029e6f481e4
         error.name = e.message;
       }
     }
 
-    if(!data.principalMuscularGroup){
+    if (!data.principalMuscularGroup) {
       error.principalMuscularGroup = 'missing';
     }
 
     let secondaryMuscularGroupID = [];
 
-    if(!data.secondaryMuscularGroup) {
+    if (!data.secondaryMuscularGroup) {
       error.secondaryMuscularGroup = 'missing';
-    }else if(data.secondaryMuscularGroup){
-      try{
-        secondaryMuscularGroupID = await serviceMuscles.searchIdMusclesSecondary(data.secondaryMuscularGroup, musclesService);
-      }catch(e) {
+    } else if (data.secondaryMuscularGroup) {
+      try {
+        secondaryMuscularGroupID = await serviceMuscles.searchIdMusclesSecondary(
+          data.secondaryMuscularGroup,
+          musclesService
+        );
+      } catch (e) {
         error.secondaryMuscularGroup = e.message;
       }
     }
 
     let principalMuscularGroupID;
-    if(!data.principalMuscularGroup) {
+    if (!data.principalMuscularGroup) {
       error.principalMuscularGroup = 'missing';
-    } else if(data.principalMuscularGroup) {
-      principalMuscularGroupID = await serviceMuscles.searchIdMusclesPrincipal(data.principalMuscularGroup, musclesService);
-      if(principalMuscularGroupID === undefined) {
-        error.principalMuscularGroupID = `muscle ${data.principalMuscularGroup} does not exists`;
+    } else if (data.principalMuscularGroup) {
+      principalMuscularGroupID = await serviceMuscles.searchIdMusclesPrincipal(
+        data.principalMuscularGroup,
+        musclesService
+      );
+      if (principalMuscularGroupID === undefined) {
+        error.principalMuscularGroupID = `muscle ${
+          data.principalMuscularGroup
+        } does not exists`;
       }
     }
 
-    if(Object.keys(error).length > 0){
+    if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
@@ -87,33 +107,31 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     //var ownerId = context.params.user._id;
     //var official ='';
 
-    if(data.description){
+    if (data.description) {
       description = data.description.substring(0, 400);
-    }else {
+    } else {
       description = 'no description';
     }
 
-    if(data.image){
+    if (data.image) {
       image = data.image.substring(0, 400);
-    }else {
+    } else {
       image = 'no image';
     }
 
-    if(data.video){
+    if (data.video) {
       // TODO
       video = data.video.substring(0, 400);
-    }else {
+    } else {
       video = 'no video';
     }
 
-    if(data.share){
+    if (data.share) {
       share = data.share.substring(0, 400);
-    }else {
+    } else {
       share = 'unshared';
     }
 
-
-    //console.log(context);
     context.data = {
       principalMuscularGroupID,
       secondaryMuscularGroupID,

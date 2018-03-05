@@ -4,7 +4,7 @@ const musclesInformation = require('../../hooks/muscles-information');
 
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [musclesInformation()],

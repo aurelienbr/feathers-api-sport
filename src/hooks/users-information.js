@@ -1,4 +1,3 @@
-
 const errors = require('@feathersjs/errors');
 const validator = require('../tools/userInformations.js');
 const usersService = require('../tools/service-users.js');
@@ -30,53 +29,50 @@ module.exports = function() {
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
 
-    if(!data.firstName){
+    if (!data.firstName) {
       error.firstName = 'missing';
-    } else if (!validator.size16(data.firstName)){
+    } else if (!validator.size16(data.firstName)) {
       error.firstName = 'too long';
     }
 
-    if(!data.surname){
+    if (!data.surname) {
       error.surname = 'missing';
-    } else if(!validator.size16(data.surname)){
+    } else if (!validator.size16(data.surname)) {
       error.surname = 'too long';
     }
 
-    if(!data.email){
+    if (!data.email) {
       error.email = 'missing';
     }
 
-    if(!validator.verifMail(data.email)){
+    if (!validator.verifMail(data.email)) {
       error.email = 'invalid format';
     }
 
     const emailValid = await usersService.verifEmail(data.email, serviceUsers);
-    if(!emailValid) {
+    if (!emailValid) {
       error.email = `email ${data.email} is already taken`;
     }
 
-    if(!data.phoneNumber){
+    if (!data.phoneNumber) {
       error.phoneNumber = 'missing';
-    } else if(!validator.verifPhone(data.phoneNumber)){
+    } else if (!validator.verifPhone(data.phoneNumber)) {
       error.phoneNumber = 'invalid phoneNumber';
     }
 
-
-    if(!data.gender){
+    if (!data.gender) {
       error.gender = 'missing';
-    } else if(!validator.verifGender(data.gender)){
-      error.gender ='Gender must be M or F';
+    } else if (!validator.verifGender(data.gender)) {
+      error.gender = 'Gender must be M or F';
     }
 
-
-    if(!data.password){
+    if (!data.password) {
       error.password = 'missing';
-    } else if(!validator.verifPassword(data.password)){
+    } else if (!validator.verifPassword(data.password)) {
       error.password = 'invalid password';
     }
 
-
-    if(Object.keys(error).length > 0){
+    if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 

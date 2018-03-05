@@ -4,12 +4,13 @@ const url = require('url');
 const app = require('../src/app');
 
 const port = app.get('port') || 3030;
-const getUrl = pathname => url.format({
-  hostname: app.get('host') || 'localhost',
-  protocol: 'http',
-  port,
-  pathname
-});
+const getUrl = pathname =>
+  url.format({
+    hostname: app.get('host') || 'localhost',
+    protocol: 'http',
+    port,
+    pathname
+  });
 
 describe('Feathers application tests', () => {
   before(function(done) {
@@ -22,9 +23,7 @@ describe('Feathers application tests', () => {
   });
 
   it('starts and shows the index page', () => {
-    return rp(getUrl()).then(body =>
-      assert.ok(body.indexOf('<html>') !== -1)
-    );
+    return rp(getUrl()).then(body => assert.ok(body.indexOf('<html>') !== -1));
   });
 
   describe('404', function() {
@@ -32,7 +31,7 @@ describe('Feathers application tests', () => {
       return rp({
         url: getUrl('path/to/nowhere'),
         headers: {
-          'Accept': 'text/html'
+          Accept: 'text/html'
         }
       }).catch(res => {
         assert.equal(res.statusCode, 404);
