@@ -10,6 +10,7 @@ module.exports = function() {
 
     //const stateHook  =
     const serviceUsers = app.service('users');
+    let emailValid;
     var error = {};
 
     let keys = [
@@ -43,15 +44,15 @@ module.exports = function() {
 
     if (!data.email) {
       error.email = 'missing';
+    } else {
+      emailValid = await usersService.verifEmail(data.email, serviceUsers);
+      if (!emailValid) {
+        error.email = `email ${data.email} is already taken`;
+      }
     }
 
     if (!validator.verifMail(data.email)) {
       error.email = 'invalid format';
-    }
-
-    const emailValid = await usersService.verifEmail(data.email, serviceUsers);
-    if (!emailValid) {
-      error.email = `email ${data.email} is already taken`;
     }
 
     if (!data.phoneNumber) {
