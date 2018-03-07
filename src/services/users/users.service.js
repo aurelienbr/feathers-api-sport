@@ -16,9 +16,13 @@ module.exports = function(app) {
   // Get our initialized service so that we can register hooks and filters
   const service = app.service('users');
 
-  mongoClient.then(db => {
-    service.Model = db.collection('users');
-  });
+  mongoClient
+    .then(db => {
+      service.Model = db.collection('users');
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
   service.hooks(hooks);
 };
