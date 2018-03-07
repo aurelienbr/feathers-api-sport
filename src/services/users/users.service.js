@@ -9,7 +9,7 @@ module.exports = function(app) {
   const paginate = app.get('paginate');
   const mongoClient = app.get('mongoClient');
   const options = { Model, paginate };
-
+  console.log('here');
   // Initialize our service with any options it requires
   app.use('/users', createService(options));
 
