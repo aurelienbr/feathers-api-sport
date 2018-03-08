@@ -7,7 +7,6 @@ module.exports = {
         $limit: 0
       }
     });
-    console.log(result);
     if (result.total > 0) {
       return false;
     }

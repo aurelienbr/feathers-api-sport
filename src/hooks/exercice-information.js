@@ -3,6 +3,7 @@
 const errors = require('@feathersjs/errors');
 const serviceMuscles = require('../tools/service-muscles.js');
 const serviceExercices = require('../tools/service-exercice.js');
+const serviceUpload = require('../tools/service-upload.js');
 const validator = require('../tools/userInformations.js');
 
 module.exports = function(options = {}) {
@@ -12,9 +13,9 @@ module.exports = function(options = {}) {
 
     const musclesService = app.service('muscles');
     const exerciceService = app.service('exercices');
+    const uploadService = app.service('uploads');
     const ownerId = context.params.user._id;
-    //const ownerId = '5a96e3f7e296d20184f23f4f';
-    var error = {};
+    let error = {};
 
     let keys = [
       'name',
@@ -92,10 +93,10 @@ module.exports = function(options = {}) {
     //const name = data.name.substring(0, 400);
     // TODO
 
-    var description = '';
-    var video = '';
-    var share = '';
-    var image = '';
+    let description = '';
+    let video = '';
+    let share = '';
+    let image = '';
     //var ownerId = context.params.user._id;
     //var official ='';
 
@@ -106,7 +107,8 @@ module.exports = function(options = {}) {
     }
 
     if (data.image) {
-      image = data.image.substring(0, 400);
+      // TODO VERIF EXTENSION
+      image = await serviceUpload.uploadImage(data.image, uploadService);
     } else {
       image = 'no image';
     }
@@ -129,7 +131,7 @@ module.exports = function(options = {}) {
       secondaryMuscularGroupID,
       ownerId,
       name,
-      image,
+      image: image.id,
       description,
       video,
       share
