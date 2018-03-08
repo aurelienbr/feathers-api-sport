@@ -38,6 +38,23 @@ module.exports = {
       return undefined;
     }
     return result.data[0]._id;
+  },
+  async verifSessionList(arrayId, service) {
+    let result = [];
+    for (const obj of arrayId) {
+      let _id = obj.idSession;
+      let sessionResult = await service.find({
+        query: {
+          _id
+        }
+      });
+      if (sessionResult.data <= 0) {
+        throw new Error(`Session with id ${_id} does not exist`);
+      }
+      result = [...result, sessionResult.data[0]._id];
+    }
+
+    return result;
   } /*,
   async searchExercice(arrayId, service) {
     let result = [];
