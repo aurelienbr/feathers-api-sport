@@ -55,6 +55,22 @@ module.exports = {
     }
 
     return result;
+  },
+  async searchNameArraySessions(arrayId, service) {
+    let result = [];
+    for (const _id of arrayId) {
+      let SessionsResult = await service.find({
+        query: {
+          _id
+        }
+      });
+      if (SessionsResult.data <= 0) {
+        throw new Error(`id ${_id} does not exist`);
+      }
+      result = [...result, SessionsResult.data[0].name];
+    }
+
+    return result;
   } /*,
   async searchExercice(arrayId, service) {
     let result = [];

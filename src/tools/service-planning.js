@@ -1,6 +1,6 @@
 module.exports = {
   async verifPlanning(ownerId, service) {
-    const name = value.toLowerCase();
+    //const ownerId = value.toLowerCase();
     const result = await service.find({
       query: {
         ownerId,
@@ -10,6 +10,6 @@ module.exports = {
     if (result.total > 0) {
       throw new Error('User already got a planning');
     }
-    return true;
+    return ownerId;
   }
 };

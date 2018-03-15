@@ -1,4 +1,5 @@
 const exerciceInformation = require('../../hooks/exercice-information.js');
+const exerciceFindBefore = require('../../hooks/exercice-find-before.js');
 const filterId = require('../../hooks/exercice-information-find.js');
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const hooks = require('feathers-authentication-hooks');
@@ -6,7 +7,7 @@ const hooks = require('feathers-authentication-hooks');
 module.exports = {
   before: {
     all: [],
-    find: [],
+    find: [exerciceFindBefore()],
     get: [],
     create: [authenticate('jwt'), exerciceInformation()],
     update: [

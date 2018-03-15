@@ -16,6 +16,13 @@ module.exports = function(options = {}) {
     //var ownerId = '5a96e3f7e296d20184f23f4f';
     var error = {};
 
+    try {
+      await servicePlanning.verifPlanning(ownerId, planningService);
+    } catch (e) {
+      console.log('poney');
+      throw new errors.BadRequest(e.message);
+    }
+
     let keys = ['sessionsList'];
     let sessionsListKeys = ['idSession', 'date', 'moment'];
 
@@ -65,11 +72,12 @@ module.exports = function(options = {}) {
     } else if (!data.sessionsList.moment) {
       error.moment = 'sessionsList.moment missing';
     } */ try {
-        await service;
         sessionsList = await serviceSessions.verifSessionList(
           data.sessionsList,
           sessionService
         );
+        if (data.sessionsList.moment) {
+        }
       } catch (e) {
         throw new errors.BadRequest(e.message);
       }

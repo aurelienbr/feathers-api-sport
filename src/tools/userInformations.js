@@ -8,6 +8,22 @@ module.exports = {
       return true;
     }
   },
+  verifDate(date) {
+    var regex = /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}\:[0-9]{2}$/;
+    if (!regex.test(date)) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  verifMoment(moment) {
+    var regex = /^^[LMJVSD]T[0-9]{2}\:[0-9]{2}$/;
+    if (!regex.test(moment)) {
+      return false;
+    } else {
+      return true;
+    }
+  },
 
   size16(string) {
     if (string.length > 16) {

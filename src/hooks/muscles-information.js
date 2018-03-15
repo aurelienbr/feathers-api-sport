@@ -21,18 +21,17 @@ module.exports = function() {
     if (resultKey.length > 0) {
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }
-
+    let name;
     if (!data.name) {
       error.name = 'missing';
     } else if (!validator.size16(data.name)) {
       error.name = 'too long';
-    }
-
-    const name = data.name.toLowerCase().substring(0, 400);
-
-    const nameValid = await serviceMuscles.verifMuscle(name, muscleService);
-    if (!nameValid) {
-      error.name = `The muscle ${name} is already present`;
+    } else if (data.name) {
+      name = data.name.toLowerCase().substring(0, 400);
+      const nameValid = await serviceMuscles.verifMuscle(name, muscleService);
+      if (!nameValid) {
+        error.name = `The muscle ${name} is already present`;
+      }
     }
 
     if (Object.keys(error).length > 0) {
