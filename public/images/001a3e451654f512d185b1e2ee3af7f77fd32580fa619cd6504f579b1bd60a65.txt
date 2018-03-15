@@ -1,0 +1,40 @@
+[debug] [2017-07-18T12:15:14.739Z] ----------------------------------------------------------------------
+[debug] [2017-07-18T12:15:14.742Z] Command:      C:\Program Files\nodejs\node.exe C:\Users\Aurélien\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase init one-time-password
+[debug] [2017-07-18T12:15:14.742Z] CLI Version:  3.9.1
+[debug] [2017-07-18T12:15:14.742Z] Platform:     win32
+[debug] [2017-07-18T12:15:14.742Z] Node Version: v6.11.0
+[debug] [2017-07-18T12:15:14.743Z] Time:         Tue Jul 18 2017 14:15:14 GMT+0200 (Paris, Madrid (heure d’été))
+[debug] [2017-07-18T12:15:14.743Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-07-18T12:15:14.756Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[debug] [2017-07-18T12:15:14.756Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\ReactNative
+
+Before we get started, keep in mind:
+
+  * You are currently outside your home directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2017-07-18T12:15:20.707Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects  
+ Tue Jul 18 2017 14:15:20 GMT+0200 (Paris, Madrid (heure d’été))
+[debug] [2017-07-18T12:15:22.037Z] <<< HTTP RESPONSE 200
+[info] 
+=== One-time-password Setup
+[debug] [2017-07-18T12:15:29.418Z] TypeError: features[nextFeature] is not a function
+[error] 
+[error] Error: An unexpected error has occurred.
