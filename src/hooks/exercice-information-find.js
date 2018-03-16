@@ -25,7 +25,7 @@ module.exports = function() {
           error.secondaryMuscularGroup = e.message;
         }
       }
-      let principalMusculargroup = await serviceMuscles.searchNameMusclesPrincipal(
+      let principalMuscularGroup = await serviceMuscles.searchNameMusclesPrincipal(
         data.principalMuscularGroupID,
         musclesService
       );
@@ -33,7 +33,7 @@ module.exports = function() {
         ...contextResult,
         {
           secondaryMuscularGroup,
-          principalMusculargroup,
+          principalMuscularGroup,
           ownerId: data.ownerId,
           name: data.name,
           image: data.image,
