@@ -10,6 +10,7 @@ module.exports = function() {
 
     //const stateHook  =
     const muscleService = app.service('muscles');
+    const exerciceService = app.service('exercices');
     var error = {};
 
     let keys = ['name'];

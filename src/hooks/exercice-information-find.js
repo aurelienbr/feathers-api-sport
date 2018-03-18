@@ -4,6 +4,7 @@ module.exports = function() {
   // eslint-disable-line no-unused-vars
   return async context => {
     const { result, app } = context;
+    console.log(result);
 
     //console.log(context);
     // Throw an error if we didn't get a text

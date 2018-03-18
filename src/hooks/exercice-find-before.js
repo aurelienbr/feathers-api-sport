@@ -13,6 +13,7 @@ module.exports = function() {
     let principalMuscularGroupID;
     let secondaryMuscularGroupID;
     let _id;
+    console.log(params);
     if (params.query.principalMuscularGroup) {
       try {
         principalMuscularGroupID = await serviceMuscles.searchIdMusclesPrincipal(
@@ -54,10 +55,10 @@ module.exports = function() {
         error.secondaryMuscularGroup = e.message;
       }
     }
-    console.log(params.query);
     if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid query parameters', error);
     }
+    console.log(params);
 
     //console.log(context);
     //const stateHook  =
