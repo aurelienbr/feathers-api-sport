@@ -14,7 +14,7 @@ module.exports = function(options = {}) {
     const musclesService = app.service('muscles');
     const exerciceService = app.service('exercices');
     const uploadService = app.service('uploads');
-    const ownerId = context.params.user._id;
+    let ownerId = String(context.params.user._id);
     let error = {};
 
     let keys = [

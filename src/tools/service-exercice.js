@@ -48,6 +48,18 @@ module.exports = {
 
     return result;
   },
+  async searchExerciceOwner(ownerId, service) {
+    let result = await service.find({
+      query: {
+        ownerId
+      }
+    });
+    if (result.data <= 0) {
+      throw new Error(`Exercice with ownerId ${_id} does not exist`);
+    }
+
+    return result;
+  },
   async verifExerciceList(arrayId, service) {
     let result = [];
     for (const _id of arrayId) {
