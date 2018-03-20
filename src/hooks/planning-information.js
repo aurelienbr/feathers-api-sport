@@ -12,7 +12,7 @@ module.exports = function(options = {}) {
     const sessionService = app.service('sessions');
     const planningService = app.service('planning');
 
-    const ownerId = context.params.user._id;
+    const ownerId = String(context.params.user._id);
     //var ownerId = '5a96e3f7e296d20184f23f4f';
     var error = {};
 
