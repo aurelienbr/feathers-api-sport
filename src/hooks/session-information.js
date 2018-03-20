@@ -17,7 +17,14 @@ module.exports = function(options = {}) {
     //var ownerId = '5a96e3f7e296d20184f23f4f';
     var error = {};
 
-    let keys = ['name', 'image', 'description', 'share', 'official'];
+    let keys = [
+      'name',
+      'image',
+      'exercicesList',
+      'description',
+      'share',
+      'official'
+    ];
 
     const resultKey = Object.keys(data).filter(
       key => keys.includes(key) === false
@@ -44,11 +51,24 @@ module.exports = function(options = {}) {
       }
     }
 
+    let exercicesList = [];
+    if (!data.exercicesList) {
+      error.exercicesList = 'missing';
+    } else if (data.exercicesList) {
+      try {
+        exercicesList = await serviceExercices.verifExerciceList(
+          data.exercicesList,
+          exerciceService
+        );
+      } catch (e) {
+        error.exercicesList = e.message;
+      }
+    }
+
     if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
-    let exercicesList = [];
     let description = '';
     let share = '';
     let image = '';
