@@ -1,5 +1,6 @@
 const sessionInformation = require('../../hooks/session-information.js');
 const sessionFind = require('../../hooks/session-information-find.js');
+const sessionUpdate = require('../../hooks/session-update.js');
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const hooks = require('feathers-authentication-hooks');
 
@@ -11,7 +12,7 @@ module.exports = {
     create: [authenticate('jwt'), sessionInformation()],
     update: [
       authenticate('jwt'),
-      sessionInformation(),
+      sessionUpdate(),
       hooks.restrictToRoles({
         roles: ['admin'],
         fieldName: 'permissions',

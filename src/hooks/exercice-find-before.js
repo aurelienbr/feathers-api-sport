@@ -59,7 +59,6 @@ module.exports = function() {
     if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid query parameters', error);
     }
-    console.log(params);
 
     //console.log(context);
     //const stateHook  =

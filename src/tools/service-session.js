@@ -13,6 +13,19 @@ module.exports = {
     }
     return name;
   },
+  async verifSessionWithId(value, ownerId, _id, service) {
+    const name = value.toLowerCase();
+    const result = await service.find({
+      query: {
+        name,
+        ownerId
+      }
+    });
+    if (result.total > 0 && result.data[0]._id != _id) {
+      throw new Error(`Session ${name} already exist`);
+    }
+    return name;
+  },
   async searchNameSession(_id, ownerId, service) {
     const result = await service.find({
       query: {
@@ -38,6 +51,18 @@ module.exports = {
       return undefined;
     }
     return result.data[0]._id;
+  },
+  async getIdSession(value, _id, service) {
+    const result = await service.find({
+      query: {
+        _id,
+        $limit: 1
+      }
+    });
+    if (result.data <= 0) {
+      return undefined;
+    }
+    return result.data[0];
   },
   async verifSessionList(arrayId, service) {
     let result = [];

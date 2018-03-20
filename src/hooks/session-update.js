@@ -15,6 +15,7 @@ module.exports = function(options = {}) {
 
     const ownerId = String(context.params.user._id);
     //var ownerId = '5a96e3f7e296d20184f23f4f';
+    const sessionId = String(context.id);
     var error = {};
 
     /*let keys = [
@@ -33,17 +34,26 @@ module.exports = function(options = {}) {
     if (resultKey.length > 0) {
       throw new errors.BadRequest(`Keys ${resultKey} are not valid`);
     }*/
+    let session;
+    try {
+      session = await serviceSessions.getIdSession(
+        data.name.toLowerCase().substring(0, 400),
+        sessionId,
+        sessionService
+      );
+    } catch (e) {
+      error.session = e.message;
+    }
 
-    let name = '';
     if (!data.name) {
-      error.name = 'missing';
     } else if (!validator.size16(data.name)) {
       error.name = 'too long';
     } else {
       try {
-        name = await serviceSessions.verifSession(
+        session.name = await serviceSessions.verifSessionWithId(
           data.name.toLowerCase().substring(0, 400),
           ownerId,
+          sessionId,
           sessionService
         );
       } catch (e) {
@@ -52,7 +62,7 @@ module.exports = function(options = {}) {
     }
 
     let exercicesList = [];
-    /*if (!data.exercicesList) {
+    if (!data.exercicesList) {
       error.exercicesList = 'missing';
     } else if (data.exercicesList) {
       try {
@@ -63,43 +73,34 @@ module.exports = function(options = {}) {
       } catch (e) {
         error.exercicesList = e.message;
       }
-    }*/
+    }
 
     if (Object.keys(error).length > 0) {
       throw new errors.BadRequest('Invalid Parameters', error);
     }
 
-    let description = '';
-    let share = '';
-    let image = '';
-    let official = '';
-
     if (data.description) {
-      description = data.description.substring(0, 400);
+      session.description = data.description.substring(0, 400);
     } else {
-      description = 'no description';
     }
 
     if (data.image) {
-      image = data.image.substring(0, 400);
+      session.image = data.image.substring(0, 400);
     } else {
-      image = 'no image';
     }
 
     if (data.share) {
-      share = data.share.substring(0, 400);
+      session.share = data.share.substring(0, 400);
     } else {
-      share = 'unshared';
     }
-
     context.data = {
-      ownerId,
-      name,
+      ownerId: session.ownerId,
+      name: session.name,
       exercicesList,
-      description,
-      share,
-      image,
-      official
+      share: session.share,
+      image: session.image,
+      official: session.official,
+      _id: session._id
     };
 
     return context;
