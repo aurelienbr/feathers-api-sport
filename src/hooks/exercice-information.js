@@ -86,10 +86,6 @@ module.exports = function(options = {}) {
       }
     }
 
-    if (Object.keys(error).length > 0) {
-      throw new errors.BadRequest('Invalid Parameters', error);
-    }
-
     //const name = data.name.substring(0, 400);
     // TODO
 
@@ -107,8 +103,16 @@ module.exports = function(options = {}) {
     }
 
     if (data.image) {
-      // TODO VERIF EXTENSION
-      image = await serviceUpload.uploadImage(data.image, uploadService);
+      if (validator.verifImage(data.image)) {
+        try {
+          image = await serviceUpload.uploadImage(data.image, uploadService);
+        } catch (e) {
+          error.image = 'not an image';
+        }
+      } else {
+        console.log('error image');
+        error.image = 'not an image';
+      }
     } else {
       image = 'no image';
     }
@@ -124,6 +128,9 @@ module.exports = function(options = {}) {
       share = data.share.substring(0, 400);
     } else {
       share = 'unshared';
+    }
+    if (Object.keys(error).length > 0) {
+      throw new errors.BadRequest('Invalid Parameters', error);
     }
 
     context.data = {

@@ -16,8 +16,18 @@ module.exports = {
       return true;
     }
   },
+  verifImage(image) {
+    var gif = /\.gif$/;
+    var png = /\.png$/;
+    if (!gif.test(image) && !png.test(image)) {
+      console.log('test');
+      return false;
+    } else {
+      return true;
+    }
+  },
   verifMoment(moment) {
-    var regex = /^^[LMJVSD]T[0-9]{2}\:[0-9]{2}$/;
+    var regex = /^[LMJVSD]T[0-9]{2}\:[0-9]{2}$/;
     if (!regex.test(moment)) {
       return false;
     } else {
